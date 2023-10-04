@@ -13,6 +13,6 @@ import lombok.*;
 public class SkillDTO {
     @JsonProperty("fullName")
     String fullName;
-    @JsonProperty("isMustHave")
+    @JsonProperty("isMustSkill")
     boolean isMustHave;
 }
