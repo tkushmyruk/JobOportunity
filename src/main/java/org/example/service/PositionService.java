@@ -52,8 +52,8 @@ public class PositionService {
         }
     }
 
-    public void enableJob(){
-        isJobEnabled = isJobEnabled? false : true;
+    public void enableJob() {
+        isJobEnabled = !isJobEnabled;
         log.info("Job new status {}", isJobEnabled);
     }
 }
