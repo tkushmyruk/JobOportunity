@@ -49,28 +49,14 @@ public class EmailServiceImpl {
     }
 
     public String createMailText(List<PositionDTO> positions) {
-//        String mailText = positions.stream().map(positionDTO -> {
             Map<String, Object> mailProperties = createMailProperties(positions);
             Context context = new Context();
             context.setVariables(mailProperties);
             return templateEngine.process("positionEmailTemplate", context);
-//        }).collect(Collectors.joining());
-//        return mailText;
     }
 
     private Map<String, Object> createMailProperties(List<PositionDTO> positionDTOs) {
         Map<String, Object> mailProperties = new HashMap<>();
-//
-//        mailProperties.put("projectCode", positionDTO.getProjectCode());
-//        mailProperties.put("primaryRole", positionDTO.getPrimaryRole());
-//        mailProperties.put("primarySkill", positionDTO.getPrimarySkill());
-//        mailProperties.put("seniority", positionDTO.getSeniorityLvl().getSeniorityLvl());
-//        mailProperties.put("mustHaveSkills", createListOfMustHaveSkills(positionDTO.getSkills()));
-//        mailProperties.put("niceToHaveSkills", createListOfNiceToHaveSkills(positionDTO.getSkills()));
-//        mailProperties.put("positionLocations", positionDTO.getPositionLocations());
-//        mailProperties.put("billingType", positionDTO.getPositionBillingType());
-//        mailProperties.put("staffingCommitmentType", positionDTO.getStaffingCommitmentTypeDTO().getType());
-//        mailProperties.put("domain", positionDTO.getDomain());
 
         mailProperties.put("positions", positionDTOs);
 
