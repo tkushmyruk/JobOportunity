@@ -23,24 +23,23 @@
 <h2>Job Opportunity</h2>
 <p>Dear candidate,</p>
 <p>We are excited to inform you about a job opportunities</p>
-<div th:each="position : ${positions}">
-    <h2>Project: <span th:text="${position.projectCode}"/></h2>
+    <h2>Project: <span th:text="${projectCode}"/></h2>
     <h3>Job Details:</h3>
     <ul>
-        <li><strong>Primary Role:</strong> <span th:text="${position.primaryRole}"/></li>
-        <li><strong>Primary Skill:</strong> <span th:text="${position.primarySkill.primarySkill}"/></li>
+        <li><strong>Primary Role:</strong> <span th:text="${primaryRole}"/></li>
+        <li><strong>Primary Skill:</strong> <span th:text="${primarySkill.primarySkill}"/></li>
         <li><p><strong>Seniority Level:</strong></p>
-            <span th:each="lvl: ${position.seniorityLvl}" th:text="${lvl.seniorityLvl} + ' '"/>
+            <span th:each="lvl: ${seniorityLvl}" th:text="${lvl.seniorityLvl} + ' '"/>
         </li>
     </ul>
     <p><strong>Must Have Skills:</strong></p>
-    <ul th:each="skill : ${position.skills}">
+    <ul th:each="skill : ${skills}">
         <li th:if="${skill.isMustHave}">
             <p th:text="${skill.fullName}"/>
         </li>
     </ul>
     <p><strong>Nice to Have Skills:</strong></p>
-    <ul th:each="skill : ${position.skills}">
+    <ul th:each="skill : ${skills}">
         <li th:if="${!skill.isMustHave}">
             <p th:text="${skill.fullName}"/>
         </li>
@@ -49,17 +48,15 @@
     <p><strong>PositionLocations:</strong></p>
     <ul>
         <p><strong>PositionLocations:</strong></p>
-        <li th:each="location : ${position.positionLocations}">
+        <li th:each="location : ${positionLocations}">
             <span th:text="${location.getDisplayName()}"/>
         </li>
     </ul>
-    <p><strong>Position Billing Type:</strong> <span th:text="${position.positionBillingType}"/></p>
+    <p><strong>Position Billing Type:</strong> <span th:text="${positionBillingType}"/></p>
     <p><strong>Staffing Commitment Type:</strong>
-        <li th:if="${position.getStaffingCommitmentTypeDTO()}">
-            <span th:text="${position.getStaffingCommitmentTypeDTO().getType()}"/>
-        </li>
+            <span th:text="staffingCommitmentType"/>
     </p>
-    <p><strong>Domain:</strong> <span th:text="${position.domain}"/></p>
+    <p><strong>Domain:</strong> <span th:text="${domain}"/></p>
 </div>
 
 <p>If you are interested in this opportunities, please reach out to us for further details.</p>

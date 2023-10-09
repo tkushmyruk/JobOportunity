@@ -8,10 +8,11 @@ import java.util.List;
 @Data
 @ToString
 @Builder
-@Value
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class PositionDTO {
+    @JsonProperty("_id")
+    String id;
     @JsonProperty("role")
     String primaryRole;
     @JsonProperty("primarySkill")
@@ -30,4 +31,7 @@ public class PositionDTO {
     String domain;
     @JsonProperty("containerCode")
     String projectCode;
+    @JsonProperty("noGo")
+    List<NoGoDTO> noGoDTOS;
+    String englishLvl;
 }

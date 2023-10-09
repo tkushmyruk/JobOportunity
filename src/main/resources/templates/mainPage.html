@@ -9,5 +9,12 @@
 <form th:action="@{/}" method="post">
     <button type="submit" th:text="${jobEnabled ? 'Disable Job' : 'Enable Job'}">Toggle Job</button>
 </form>
+
+
+<form action="#" th:action="@{/cookie}" method="post">
+    <label for="text">Text:</label>
+    <input type="text" id="text" name="cookie" th />
+    <button type="submit">Set Cookie</button>
+</form>
 </body>
 </html>

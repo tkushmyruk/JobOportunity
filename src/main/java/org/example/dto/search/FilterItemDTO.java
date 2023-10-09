@@ -10,7 +10,6 @@ import java.util.Map;
 @Data
 @ToString
 @Builder
-@Value
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class FilterItemDTO {

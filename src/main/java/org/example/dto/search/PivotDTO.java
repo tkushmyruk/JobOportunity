@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @ToString
 @Builder
-@Value
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class PivotDTO {

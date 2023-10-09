@@ -7,7 +7,6 @@ import lombok.*;
 @Data
 @ToString
 @Builder
-@Value
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 public class CardDataDTO {
 }

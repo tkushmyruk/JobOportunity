@@ -9,9 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class SkillDTO {
+public class NoGoLocationDTO {
     @JsonProperty("fullName")
     String fullName;
-    @JsonProperty("isMustSkill")
-    boolean isMustHave;
 }

@@ -1,17 +1,16 @@
 package org.example.dto.position;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+
+import java.util.List;
 
 @Data
 @ToString
 @Builder
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class SkillDTO {
-    @JsonProperty("fullName")
-    String fullName;
-    @JsonProperty("isMustSkill")
-    boolean isMustHave;
+public class NoGoDTO {
+    @JsonProperty("locations")
+    List<NoGoLocationDTO> noGoLocationList;
 }

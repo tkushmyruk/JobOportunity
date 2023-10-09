@@ -8,7 +8,6 @@ import lombok.*;
 @Data
 @ToString
 @Builder
-@Value
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class DetailsPopupDTO {
