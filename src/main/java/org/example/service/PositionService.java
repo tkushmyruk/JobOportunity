@@ -47,7 +47,6 @@ public class PositionService {
     public void callClient() {
         if (isJobEnabled) {
             try {
-                log.info("Job started");
                 SearchDto searchDto = client.getSearchDto(CookieUtil.cookieTest);
                 PositionRequestDTO reqw = PositionRequestDTO.builder().searchDto(searchDto).build();
                 String search = mapper.writeValueAsString(reqw);
@@ -59,8 +58,8 @@ public class PositionService {
                 teamsService.teamsMessageSend(positionsDTO);
                 log.info("Messages was sent to Microsoft Teams");
 
-                String[] allAddresses = repository.findAllAddresses();
-                log.info("{} email addresses", allAddresses);
+//                String[] allAddresses = repository.findAllAddresses();
+//                log.info("{} email addresses", allAddresses);
 //                emailService.sendMail(allAddresses, CookieUtil.FROM_EMAIL, CookieUtil.MAIL_SUBJECT, positionsDTO);
             } catch (Exception e) {
                 log.error("Job was failed due to {}", e.getMessage());
@@ -75,6 +74,8 @@ public class PositionService {
         isJobEnabled = !isJobEnabled;
         log.info("Job new status {}", isJobEnabled);
     }
+
+
 
     public List<PositionDTO> setupEnglishLvlForPosition(ResponseDTO responseDTO) {
         return responseDTO.getPositions().stream().map(positionDTO -> {

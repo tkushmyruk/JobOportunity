@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface TeamsClient {
 
     @PostMapping("/")
-    void postSearchDto( @Param String message);
+    void sendMessageToTeams(@Param String message);
 }
