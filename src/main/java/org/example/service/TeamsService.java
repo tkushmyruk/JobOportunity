@@ -23,15 +23,12 @@ public class TeamsService {
     @Autowired
     public TeamsMessageService teamsMessageService;
 
-    private static final String STAFFING_URL = "https://staffing.epam.com/positions/";
-
     public void teamsMessageSend(List<PositionDTO> positionsDTO) {
         positionsDTO.stream().forEach(positionDTO -> {
 //            String message = createMessage(positionDTO);
             TeamsMessage build = teamsMessageService.createTeamsMessage(positionDTO);
             try {
                 String s = mapper.writeValueAsString(build);
-                System.out.println(s);
                 teamsClient.sendMessageToTeams(s);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
@@ -62,12 +59,12 @@ public class TeamsService {
 //
 //        return message.toString();
 //    }
-
-    public String createRow(String title, String body) {
-        if (body != null && !body.isEmpty() && !body.equals("null")) {
-            return title + body + "\n\n";
-        }
-        return "";
-    }
+//
+//    public String createRow(String title, String body) {
+//        if (body != null && !body.isEmpty() && !body.equals("null")) {
+//            return title + body + "\n\n";
+//        }
+//        return "";
+//    }
 
 }

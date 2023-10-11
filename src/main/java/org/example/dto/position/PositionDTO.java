@@ -33,5 +33,7 @@ public class PositionDTO {
     String projectCode;
     @JsonProperty("noGo")
     List<NoGoDTO> noGoDTOS;
+    @JsonProperty("creationDate")
+    long creationDate;
     String englishLvl;
 }

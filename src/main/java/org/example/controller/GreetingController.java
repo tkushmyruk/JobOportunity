@@ -22,15 +22,14 @@ public class GreetingController {
     @GetMapping("/")
     public String greeting(Model model) {
         log.info("greeting");
-        model.addAttribute("jobEnabled", positionService.isJobEnabled);
+        model.addAttribute("jobEnabled", positionService.isEnabled());
         return "mainPage";
     }
 
     @PostMapping("/")
     public String toggleJobStatus(Model model) {
-        model.addAttribute("jobEnabled", positionService.isJobEnabled);
         positionService.enableJob();
-        return "mainPage";
+        return "redirect:/";
     }
 
     @PostMapping("/cookie")
