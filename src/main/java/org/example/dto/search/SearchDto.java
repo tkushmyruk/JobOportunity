@@ -52,7 +52,7 @@ public class SearchDto {
     private List<String> labels;
 
     @JsonProperty("sharingDate")
-    private String sharingDate;
+    private long sharingDate;
 
     @JsonProperty("lastEvolutionStepCompleted")
     private int lastEvolutionStepCompleted;

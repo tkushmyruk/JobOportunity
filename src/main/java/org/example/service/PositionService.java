@@ -9,9 +9,12 @@ import org.example.client.PostFeignClient;
 import org.example.client.StaffingClient;
 import org.example.dto.position.PositionDTO;
 import org.example.dto.position.ResponseDTO;
+import org.example.dto.search.FilterItemDTO;
 import org.example.dto.search.PositionRequestDTO;
 import org.example.dto.search.SearchDto;
+import org.example.dto.search.ValueDTO;
 import org.example.dto.staffing.StaffingResponse;
+import org.example.filters.CreationDateFilter;
 import org.example.repository.MailAddressRepository;
 import org.example.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,18 +47,23 @@ public class PositionService {
     public boolean isJobEnabled;
     public String cookie;
 
-    @Scheduled(initialDelay = 120000, fixedRate = 1800000)
+    @Scheduled(initialDelay = 120000, fixedRate = 3600000)
     @Transactional
     public void callClient() {
         if (isJobEnabled) {
             try {
                 log.info("Job started");
                 SearchDto searchDto = client.getSearchDto(cookie);
-                PositionRequestDTO reqw = PositionRequestDTO.builder().searchDto(searchDto).build();
-                String search = mapper.writeValueAsString(reqw);
+                PositionRequestDTO req = PositionRequestDTO.builder().searchDto(searchDto).build();
+                PositionRequestDTO searchRequestDto = changeCreationDateRequest(req);
+
+                String search = mapper.writeValueAsString(searchRequestDto);
+
+                System.out.println(search);
 
                 ResponseDTO responseDTO = positionClient.getPositions(cookie, search);
-                List<PositionDTO> filteredPositions = filterPositionByCreationDate(responseDTO);
+                System.out.println(responseDTO.getPositions().size());
+                List<PositionDTO> filteredPositions = CreationDateFilter.filterPositionByTime(responseDTO);
 
                 if(filteredPositions.isEmpty()){
                     log.info("There is no new positions");
@@ -90,15 +99,44 @@ public class PositionService {
         return isJobEnabled;
     }
 
-    private List<PositionDTO> filterPositionByCreationDate(ResponseDTO responseDTO){
-        return responseDTO.getPositions().stream()
-                .filter(positionDTO -> (System.currentTimeMillis() - positionDTO.getCreationDate()) <= 1800000)
+    private PositionRequestDTO changeCreationDateRequest(PositionRequestDTO requestDTO) {
+        List<FilterItemDTO> itemsWithoutCreationFilter = requestDTO.getSearchDto().getData().getFilters().getItems().stream()
+                .filter(item -> !item.getName().equals("creationDate"))
                 .collect(Collectors.toList());
+        ValueDTO sinceValue = ValueDTO.builder().displayName("Today")
+                .quantity(0)
+                .sinceOrTill("since")
+                .tense(0)
+                .type("Day")
+                .operator(2)
+                .build();
+
+        ValueDTO tillValue = ValueDTO.builder().displayName("Today")
+                .quantity(0)
+                .sinceOrTill("till")
+                .tense(0)
+                .type("Day")
+                .operator(3)
+                .build();
+
+
+        FilterItemDTO creationDateFilter = FilterItemDTO.builder().disabled(false)
+                .name("creationDate")
+                .values(List.of(sinceValue, tillValue))
+                .mode(1)
+                .settings(new HashMap<String, Object>())
+                .build();
+
+        itemsWithoutCreationFilter.add(creationDateFilter);
+
+        requestDTO.getSearchDto().getData().getFilters().setItems(itemsWithoutCreationFilter);
+
+        return requestDTO;
     }
 
     public List<PositionDTO> setupEnglishLvlForPosition(List<PositionDTO> positions) {
         return positions.stream().map(positionDTO -> {
-            StaffingResponse englishLevel = staffingClient.getEnglishLevel(CookieUtil.cookieTest, positionDTO.getId());
+            StaffingResponse englishLevel = staffingClient.getEnglishLevel(cookie, positionDTO.getId());
             if(englishLevel != null && englishLevel.getSpeakingEnglishLevelDTO() != null) {
                 positionDTO.setEnglishLvl(englishLevel.getSpeakingEnglishLevelDTO().getName());
             }
