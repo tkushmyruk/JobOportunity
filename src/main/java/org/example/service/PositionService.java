@@ -59,10 +59,7 @@ public class PositionService {
 
                 String search = mapper.writeValueAsString(searchRequestDto);
 
-                System.out.println(search);
-
                 ResponseDTO responseDTO = positionClient.getPositions(cookie, search);
-                System.out.println(responseDTO.getPositions().size());
                 List<PositionDTO> filteredPositions = CreationDateFilter.filterPositionByTime(responseDTO);
 
                 if(filteredPositions.isEmpty()){
