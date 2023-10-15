@@ -26,7 +26,7 @@ spring:
 
 client:
   post:
-    baseUrl: "https://radar.epam.com/api/search/64ae70e4f27f5bb2f5efb046"
+    baseUrl: "https://radar.epam.com/api/search/652675342dfecb7e14d50d18"
     anotherUrl: "https://radar.epam.com/api/positions/grid"
     teamsUrl: "https://epam.webhook.office.com/webhookb2/638ce6e8-31f3-4967-b6ff-72a2150b0bd1@b41b72d0-4e9f-4c26-8a69-f949f367c91d/IncomingWebhook/6d38b3e01655478088cdcdbc9436ffca/57f4be4e-2b50-4578-9194-3f2ee028f290"
     staffingUrl: "https://staffing.epam.com/api/b1/positions/"

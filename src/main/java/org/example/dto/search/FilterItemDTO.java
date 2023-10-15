@@ -35,4 +35,8 @@ public class FilterItemDTO {
     @JsonProperty(value = "staffingStatusType")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String staffingStatusType;
+
+    @JsonProperty("seniorityLevelModeSubFilter")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String seniorityLevelModeSubFilter;
 }

@@ -26,10 +26,10 @@ public class TeamsService {
     public void teamsMessageSend(List<PositionDTO> positionsDTO) {
         positionsDTO.stream().forEach(positionDTO -> {
 //            String message = createMessage(positionDTO);
-            TeamsMessage build = teamsMessageService.createTeamsMessage(positionDTO);
+            TeamsMessage teamsMessageDto = teamsMessageService.createTeamsMessage(positionDTO);
             try {
-                String s = mapper.writeValueAsString(build);
-                teamsClient.sendMessageToTeams(s);
+                String teamsMessage = mapper.writeValueAsString(teamsMessageDto);
+                teamsClient.sendMessageToTeams(teamsMessage);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
