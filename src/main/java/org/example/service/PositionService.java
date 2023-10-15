@@ -47,7 +47,7 @@ public class PositionService {
     public boolean isJobEnabled;
     public String cookie;
 
-    @Scheduled(initialDelay = 1000, fixedRate = 3600000)
+    @Scheduled(initialDelay = 120000, fixedRate = 3600000)
     @Transactional
     public void callClient() {
         if (isJobEnabled) {
