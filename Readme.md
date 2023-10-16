@@ -1,6 +1,6 @@
 This guide will help you start up and customise this simple jobs notification service.
 
-You will receive notifications every **30 minutes** for any newly added opportunities that match filters.
+You will receive notifications every **60 minutes** for any newly added opportunities that match filters.
 
 ## Prerequisites
 
