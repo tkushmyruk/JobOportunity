@@ -29,6 +29,8 @@ public class EmailServiceImpl {
     private SpringTemplateEngine templateEngine;
     @Autowired
     private MailAddressRepository repository;
+    private static final String STAFFING_URL = "https://staffing.epam.com/positions/";
+
 
     public void sendMail(String[] toAddresses, String from, String subject, List<PositionDTO> positionDTO) {
         MimeMessage mailMessage = sender.createMimeMessage();
@@ -59,6 +61,7 @@ public class EmailServiceImpl {
         Map<String, Object> mailProperties = new HashMap<>();
 
         mailProperties.put("positions", positionDTOs);
+        mailProperties.put("staffingUrl", STAFFING_URL);
 
         log.info("Mail properties {} created", mailProperties);
 

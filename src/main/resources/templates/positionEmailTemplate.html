@@ -13,56 +13,106 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            font-size: 48px;
+            font-size: 14px;
         }
-
-
+        table {
+          border-collapse: collapse;
+          width: 80%;
+          border-spacing: 0;
+          border: 1px solid #ddd;
+          margin: 5px 0px 10px;
+        }
+        th, td {
+          text-align: left;
+          padding: 8px;
+          border: 1px solid #ddd;
+        }
+        td {
+          width: 160px;
+         }
+        td+td {
+          width: auto;
+        }
+        tr:nth-child(even){background-color: #f2f2f2}
+        .button {
+          background-color: #4CAF50; /* Green */
+          border: none;
+          color: white;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 14px;
+          margin: 2px;
+          cursor: pointer;
+          padding: 15px 30px;
+        }
     </style>
 </head>
 <body>
 <h2>Job Opportunity</h2>
 <p>Dear candidate,</p>
-<p>We are excited to inform you about a job opportunities</p>
+<p>We are excited to inform you about new job opportunities:</p>
 <div th:each="position : ${positions}">
     <h2>Project: <span th:text="${position.projectCode}"/></h2>
-    <h3>Job Details:</h3>
-    <ul>
-        <li><strong>Primary Role:</strong> <span th:text="${position.primaryRole}"/></li>
-        <li><strong>Primary Skill:</strong> <span th:text="${position.primarySkill.primarySkill}"/></li>
-        <li><p><strong>Seniority Level:</strong></p>
-            <span th:each="lvl: ${position.seniorityLvl}" th:text="${lvl.seniorityLvl} + ' '"/>
-        </li>
-    </ul>
-    <p><strong>Must Have Skills:</strong></p>
-    <ul th:each="skill : ${position.skills}">
-        <li th:if="${skill.isMustHave}">
-            <p th:text="${skill.fullName}"/>
-        </li>
-    </ul>
-    <p><strong>Nice to Have Skills:</strong></p>
-    <ul th:each="skill : ${position.skills}">
-        <li th:if="${!skill.isMustHave}">
-            <p th:text="${skill.fullName}"/>
-        </li>
-    </ul>
-    <h3>Position Details:</h3>
-    <p><strong>PositionLocations:</strong></p>
-    <ul>
-        <p><strong>PositionLocations:</strong></p>
-        <li th:each="location : ${position.positionLocations}">
-            <span th:text="${location.getDisplayName()}"/>
-        </li>
-    </ul>
-    <p><strong>Position Billing Type:</strong> <span th:text="${position.positionBillingType}"/></p>
-    <p><strong>Staffing Commitment Type:</strong>
-        <li th:if="${position.getStaffingCommitmentTypeDTO()}">
-            <span th:text="${position.getStaffingCommitmentTypeDTO().getType()}"/>
-        </li>
-    </p>
-    <p><strong>Domain:</strong> <span th:text="${position.domain}"/></p>
+    <table>
+        <tr>
+            <td><strong>Primary Role:</strong></td>
+            <td><span th:text="${position.primaryRole}"/></td>
+        </tr>
+
+        <tr>
+            <td><strong>Primary Skill:</strong></td>
+            <td><span th:text="${position.primarySkill.primarySkill}"/></td>
+        </tr>
+        <tr>
+            <td><strong>Seniority Level:</strong></td>
+            <td>
+                <span th:text="${T(java.lang.String).join(', ', position.seniorityLvl.seniorityLvl)}"/>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Must Have Skills:</strong></td>
+            <td>
+                <ul>
+                    <li th:each="skill : ${position.skills}" th:if="${skill.isMustHave}">
+                        <span th:text="${skill.fullName}"/>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Position Locations:</strong></td>
+            <td>
+                <ul>
+                    <li th:each="location : ${position.positionLocations}">
+                        <span th:text="${location.getDisplayName()}"/>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Position Billing Type:</strong></td>
+            <td>
+                <span th:text="${position.positionBillingType}"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Domain:</strong></td>
+            <td><span th:text="${position.domain}"/></td>
+        </tr>
+    </table>
+
+    <a th:href="@{{baseUrl}{id}(baseUrl=${staffingUrl},id=${position.getId()})}">
+        <button class="button">
+            Details
+        </button>
+    </a>
+
+
 </div>
 
-<p>If you are interested in this opportunities, please reach out to us for further details.</p>
+<p>If you are interested in these opportunities, please reach out to us for further details.</p>
 <p>Thank you!</p>
 </body>
 
