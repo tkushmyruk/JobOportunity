@@ -22,7 +22,14 @@ Else download source code and build locally:
 
 - execute `mvn package`. This will place `jar` in `target` folder.
 
-## Start
+## Start with Docker
+
+Assuming, you have placed `jar` in `/target` folder, then run commands from directory that contains `Dockerfile`:
+
+1. `docker build -t notifications:latest .`
+1. `docker run -p 2244:2244 notifications`
+
+## Start without Docker
 
 - use script
     - `start.bat` - for Windows
