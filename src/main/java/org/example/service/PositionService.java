@@ -54,13 +54,13 @@ public class PositionService {
         if (isJobEnabled) {
             try {
                 log.info("Job started");
-                SearchDto searchDto = client.getSearchDto(CookieUtil.cookieTest);
+                SearchDto searchDto = client.getSearchDto(cookie);
                 PositionRequestDTO req = PositionRequestDTO.builder().searchDto(searchDto).build();
                 PositionRequestDTO searchRequestDto = changeCreationDateRequest(req);
 
                 String search = mapper.writeValueAsString(searchRequestDto);
 
-                ResponseDTO responseDTO = positionClient.getPositions(CookieUtil.cookieTest, search);
+                ResponseDTO responseDTO = positionClient.getPositions(cookie, search);
                 List<PositionDTO> filteredPositions = CreationDateFilter.filterPositionByTime(responseDTO);
 
                 if (filteredPositions.isEmpty()) {
@@ -68,7 +68,7 @@ public class PositionService {
                     return;
                 }
 
-                List<PositionDTO> positionsDTO = staffingService.setStaffingInformation(filteredPositions);
+                List<PositionDTO> positionsDTO = staffingService.setStaffingInformation(filteredPositions, cookie);
                 log.info("{} positions was received", positionsDTO.size());
 
                 teamsService.teamsMessageSend(positionsDTO);

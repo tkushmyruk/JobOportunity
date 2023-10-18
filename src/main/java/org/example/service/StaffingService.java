@@ -16,9 +16,9 @@ public class StaffingService {
     @Autowired
     private StaffingClient staffingClient;
 
-    public List<PositionDTO> setStaffingInformation(List<PositionDTO> positions) {
+    public List<PositionDTO> setStaffingInformation(List<PositionDTO> positions, String cookie) {
         return positions.stream().map(positionDTO -> {
-            StaffingResponse staffingResponse = staffingClient.getEnglishLevel(CookieUtil.cookieTest, positionDTO.getId());
+            StaffingResponse staffingResponse = staffingClient.getEnglishLevel(cookie, positionDTO.getId());
             positionDTO.setEnglishLvl(setEnglishLevel(staffingResponse));
             positionDTO.setPositionLocations(getPositionLocations(staffingResponse));
             positionDTO.setDescription(setDescription(staffingResponse));
