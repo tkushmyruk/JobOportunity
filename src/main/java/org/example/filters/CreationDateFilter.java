@@ -12,7 +12,7 @@ public class CreationDateFilter {
     public static List<PositionDTO> filterPositionByTime(ResponseDTO responseDto) {
         if (responseDto != null) {
             List<PositionDTO> filteredPosition = responseDto.getPositions().stream()
-                    .filter(position -> System.currentTimeMillis() - position.getCreationDate() < 600000)
+                    .filter(position -> System.currentTimeMillis() - position.getCreationDate() < 1800000)
                     .collect(Collectors.toList());
             return filteredPosition;
         }
