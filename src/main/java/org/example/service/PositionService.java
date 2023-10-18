@@ -17,6 +17,7 @@ import org.example.dto.staffing.StaffingResponse;
 import org.example.filters.CreationDateFilter;
 import org.example.repository.MailAddressRepository;
 import org.example.util.CookieUtil;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -35,11 +36,11 @@ public class PositionService {
     @Autowired
     private PositionClient positionClient;
     @Autowired
-    private StaffingClient staffingClient;
-    @Autowired
     private ObjectMapper mapper;
     @Autowired
     private EmailServiceImpl emailService;
+    @Autowired
+    StaffingService staffingService;
     @Autowired
     private TeamsService teamsService;
     @Autowired
@@ -47,7 +48,7 @@ public class PositionService {
     public boolean isJobEnabled;
     public String cookie;
 
-    @Scheduled(initialDelay = 120000, fixedRate = 3600000)
+    @Scheduled(initialDelay = 120000, fixedRate = 1800000)
     @Transactional
     public void callClient() {
         if (isJobEnabled) {
@@ -62,12 +63,12 @@ public class PositionService {
                 ResponseDTO responseDTO = positionClient.getPositions(cookie, search);
                 List<PositionDTO> filteredPositions = CreationDateFilter.filterPositionByTime(responseDTO);
 
-                if(filteredPositions.isEmpty()){
+                if (filteredPositions.isEmpty()) {
                     log.info("There is no new positions");
                     return;
                 }
 
-                List<PositionDTO> positionsDTO = setupEnglishLvlForPosition(filteredPositions);
+                List<PositionDTO> positionsDTO = staffingService.setStaffingInformation(filteredPositions, cookie);
                 log.info("{} positions was received", positionsDTO.size());
 
                 teamsService.teamsMessageSend(positionsDTO);
@@ -85,7 +86,7 @@ public class PositionService {
         }
     }
 
-    public boolean isEnabled(){
+    public boolean isEnabled() {
         return isJobEnabled;
     }
 
@@ -131,14 +132,6 @@ public class PositionService {
         return requestDTO;
     }
 
-    public List<PositionDTO> setupEnglishLvlForPosition(List<PositionDTO> positions) {
-        return positions.stream().map(positionDTO -> {
-            StaffingResponse englishLevel = staffingClient.getEnglishLevel(cookie, positionDTO.getId());
-            if(englishLevel != null && englishLevel.getSpeakingEnglishLevelDTO() != null) {
-                positionDTO.setEnglishLvl(englishLevel.getSpeakingEnglishLevelDTO().getName());
-            }
-            return positionDTO;
-        }).collect(Collectors.toList());
 
-    }
+
 }

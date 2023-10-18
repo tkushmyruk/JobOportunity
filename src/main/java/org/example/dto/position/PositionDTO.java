@@ -14,15 +14,13 @@ public class PositionDTO {
     @JsonProperty("_id")
     String id;
     @JsonProperty("role")
-    String primaryRole;
+    PrimaryRoleDTO primaryRole;
     @JsonProperty("primarySkill")
     PrimarySkillDTO primarySkill;
     @JsonProperty("seniority")
     SeniorityDTO seniorityLvl;
     @JsonProperty("niceOrMustSkills")
     List<SkillDTO> skills;
-    @JsonProperty("locations")
-    List<LocationDTO> positionLocations;
     @JsonProperty("billingType")
     String positionBillingType;
     @JsonProperty("staffingCommitmentType")
@@ -36,4 +34,6 @@ public class PositionDTO {
     @JsonProperty("creationDate")
     long creationDate;
     String englishLvl;
+    List<String> positionLocations;
+    String description;
 }
